@@ -4,22 +4,22 @@ from hzqna.models import Question, Answer
 from django.contrib.auth.models import User
 
 class QuestionSimpleTestCase(unittest.TestCase):
-    #fixtures = ['question_simple.json']
+    fixtures = ['question_simple.json']
 
-    def setUp():
+    def setUp(self):
         pass
 
-    def testQuestionCreate():
+    def testQuestionCreate(self):
         u = User.objects.get(pk=1)
         q = Question.objects.create(author=u, title='Test question', text='Blablabla')
         self.assertTrue(Question.opened.get(title='Test question'))
 
-    def testQuestionRemove():
+    def testQuestionRemove(self):
         self.testQuestionCreate()
         q = Question.opened.get(title='Test question')
         q.delete()
 
-    def testQuestionClose():
+    def testQuestionClose(self):
         self.testQuestionCreate()
         q = Question.opened.get(title='Test question')
         q.is_closed = True
@@ -29,12 +29,12 @@ class QuestionSimpleTestCase(unittest.TestCase):
 
 
 class AnswerSimpleTestCase(unittest.TestCase):
-    #fixtures = [ 'question_simple.json', ]
+    fixtures = [ 'question_simple.json', ]
     
-    def setUp():
+    def setUp(self):
         Question.objects.create(author=User.objects.get(pk=1), title='Test question', text='Blabla')
     
-    def testAnswerTheQuestion():
+    def testAnswerTheQuestion(self):
         q = Question.objects.get(title='Test question')
         a = Answer.objects.create(author=User.objects.get(pk=1),
                                   question=q, text='This is test answer')
