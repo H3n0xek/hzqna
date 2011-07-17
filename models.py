@@ -11,7 +11,7 @@ class Question(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField(null=True, blank=True)
     tags = TagField(blank=True)
-    is_closed = models.BooleanField()
+    is_closed = models.BooleanField(default=False)
     objects = models.Manager()
     opened = OpenQuestionsManager()
     closed = ClosedQuestionsManager()
@@ -21,7 +21,7 @@ class Question(models.Model):
 class Answer(models.Model):
     author = models.ForeignKey(User)
     question = models.ForeignKey(Question)
-    pub_date = models.DateTimeField()
+    pub_date = models.DateTimeField(default=datetime.now)
     text = models.TextField()
     is_best = models.BooleanField(default=False)
     
