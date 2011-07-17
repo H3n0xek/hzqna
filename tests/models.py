@@ -1,10 +1,10 @@
-from django.utils import unittest
+from django.test import TestCase
 from django.test.client import Client
 from hzqna.models import Question, Answer
 from django.contrib.auth.models import User
 
-class QuestionSimpleTestCase(unittest.TestCase):
-    fixtures = ['question_simple.json']
+class QuestionSimpleTestCase(TestCase):
+    fixtures = ['question_simple.json', ]
 
     def setUp(self):
         pass
@@ -28,7 +28,7 @@ class QuestionSimpleTestCase(unittest.TestCase):
 
 
 
-class AnswerSimpleTestCase(unittest.TestCase):
+class AnswerSimpleTestCase(TestCase):
     fixtures = [ 'question_simple.json', ]
     
     def setUp(self):
