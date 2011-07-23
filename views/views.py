@@ -44,5 +44,30 @@ class ListOpened(ListQuestionsGeneric):
 class ListClosed(ListQuestionsGeneric):
 	template_name = 'qna/list_closed.html'
 	queryset_base = Question.closed
-		
 
+	
+	
+	
+class ListByUser(ListView):
+	def get_queryset(self):
+		page = self.kwargs.get('page', 1)
+		userid = self.kwargs.get('userid', 0)
+		if not userid:
+			raise Http404
+	    self.results = self.queryset_base.filter(author__id=userid)
+	
+	def get_context_data(self, **kwargs):
+		context = super(PublishedDetailView, self).get_context_data(**kwargs)
+		try:
+			context[self.ctxvar] = self.results
+		except KeyError:
+			raise Http404
+	
+class ListUserQuestions(ListByUser):
+	template_name = 'qna/list_user_questions.html'
+	queryset_base = Question.objects
+	ctxvar = 'question_list'
+
+class ListUserAnswers(ListByUser):
+	template_name = 'qna/list_user_answers.html'
+	queryset_base = Answer.objects
