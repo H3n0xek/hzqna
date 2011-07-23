@@ -11,11 +11,8 @@ class ListOpened(ListView):
 	def get_queryset(self):
         page = self.kwargs.get('page', 1)
 		tagname = self.kwargs.get('tagname', None)
-		userid = self.kwargs.get('userid', None)
 		if tagname:
-			objects = self.get_tagged(tagname)
-		else if userid:
-			objects = Question.opened.filter(author__id = userid)
+			objects = self.get_tagged(tagname)		
 		else:
 			objects = Question.opened.all()		
 			
@@ -39,4 +36,6 @@ class ListOpened(ListView):
 		if not len(questions):
 			raise Http404
 		return questions
+
+		
 
