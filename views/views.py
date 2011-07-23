@@ -71,3 +71,4 @@ class ListUserQuestions(ListByUser):
 class ListUserAnswers(ListByUser):
 	template_name = 'qna/list_user_answers.html'
 	queryset_base = Answer.objects
+	ctxvar = 'answer_list'

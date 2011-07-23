@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from hzqna.views import ListOpened
+from hzqna.views import ListOpened, ListClosed, ListUserQuestions, ListUserAnswers
 
 opened_questions = url(
     regex=r'^opened/(?P<page>\d+)/$',
