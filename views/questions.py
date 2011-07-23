@@ -5,23 +5,21 @@ from hzqna.settings import QUESTIONS_PER_PAGE
 from django.http import Http404
 from tagging.models import Tag, TaggedItem
 
-class ListOpened(ListView):
-    template_name = "qna/list_opened.html"
-    
+class ListQuestionsGeneric(ListView):
 	def get_queryset(self):
         page = self.kwargs.get('page', 1)
 		tagname = self.kwargs.get('tagname', None)
 		if tagname:
 			objects = self.get_tagged(tagname)		
 		else:
-			objects = Question.opened.all()		
+			objects = self.queryset_base.all()		
 			
         paginator = Paginator(objects, QUESTIONS_PER_PAGE)
 		try:
 			self.questions = paginator.page(page)
 		except EmptyPage:
-			raise Http404           
-    
+			raise Http404        
+
 	def get_context_data(self, **kwargs):
 		context = super(PublishedDetailView, self).get_context_data(**kwargs)
 		try:
@@ -32,10 +30,19 @@ class ListOpened(ListView):
 
 	def get_tagged(self, tagname):
 		tag = Tag.objects.get(name=tagname)
-		questions = TaggedItem.objects.get_by_model(Question, tag)
+		questions = TaggedItem.objects.usage_for_queryset(self.queryset_base.all(), tag)		
 		if not len(questions):
 			raise Http404
 		return questions
 
+		
+class ListOpened(ListQuestionsGeneric):
+    template_name = "qna/list_opened.html"
+    queryset_base = Question.opened
+	
+	
+class ListClosed(ListQuestionsGeneric):
+	template_name = 'qna/list_closed.html'
+	queryset_base = Question.closed
 		
 
