@@ -1,27 +1,26 @@
 from django.views.generic.list import ListView
 from django.core.paginator import Paginator, EmptyPage
-from hzqna.models import Question
+from hzqna.models import Question, Answer
 from hzqna.settings import QUESTIONS_PER_PAGE
 from django.http import Http404
 from tagging.models import Tag, TaggedItem
 
 class ListQuestionsGeneric(ListView):
 	def get_queryset(self):
-        page = self.kwargs.get('page', 1)
-		tagname = self.kwargs.get('tagname', None)
-		if tagname:
-			objects = self.get_tagged(tagname)		
-		else:
-			objects = self.queryset_base.all()		
-			
-        paginator = Paginator(objects, QUESTIONS_PER_PAGE)
-		try:
-			self.questions = paginator.page(page)
-		except EmptyPage:
-			raise Http404        
+            page = self.kwargs.get('page', 1)
+	    tagname = self.kwargs.get('tagname', None)
+	    if tagname:
+		objects = self.get_tagged(tagname)		
+	    else:
+		objects = self.queryset_base.all()		
+	    paginator = Paginator(objects, QUESTIONS_PER_PAGE)
+	    try:
+		self.questions = paginator.page(page)
+	    except EmptyPage:
+		raise Http404        
 
 	def get_context_data(self, **kwargs):
-		context = super(PublishedDetailView, self).get_context_data(**kwargs)
+		context = super(ListQuestionsGeneric, self).get_context_data(**kwargs)
 		try:
 			context['question_list'] = self.questions
 		except KeyError:
@@ -54,10 +53,10 @@ class ListByUser(ListView):
 		userid = self.kwargs.get('userid', 0)
 		if not userid:
 			raise Http404
-	    self.results = self.queryset_base.filter(author__id=userid)
+	        self.results = self.queryset_base.filter(author__id=userid)
 	
 	def get_context_data(self, **kwargs):
-		context = super(PublishedDetailView, self).get_context_data(**kwargs)
+		context = super(ListByUser, self).get_context_data(**kwargs)
 		try:
 			context[self.ctxvar] = self.results
 		except KeyError:
