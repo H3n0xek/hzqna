@@ -1,9 +1,11 @@
 from django.views.generic.list import ListView
+from django.views.generic import DetailView
 from django.core.paginator import Paginator, EmptyPage
 from hzqna.models import Question, Answer
 from hzqna.settings import QUESTIONS_PER_PAGE
 from django.http import Http404
 from tagging.models import Tag, TaggedItem
+from django.shortcuts import get_object_or_404
 
 class ListQuestionsGeneric(ListView):
 	def get_queryset(self):
@@ -71,3 +73,22 @@ class ListUserAnswers(ListByUser):
 	template_name = 'qna/list_user_answers.html'
 	queryset_base = Answer.objects
 	ctxvar = 'answer_list'
+
+
+class ViewQuestion(DetailView):
+	context_object_name = 'question'
+	template_name = 'qna/view_question.html'	
+
+	def get_queryset(self):
+		id = self.kwargs.get('id', 0)
+		if not id:
+			raise Http404
+		self.question = get_object_or_404(Question, pk=id)
+		self.answers = Answer.objects.filter(question__pk=id)
+
+	def get_context_data(self, **kwargs):
+		context = super(ViewQuestion, self).get_context_data(**kwargs)
+		context['question'] = self.question
+		context['answers'] = self.answers
+		return context
+

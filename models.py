@@ -16,6 +16,12 @@ class Question(models.Model):
     opened = OpenQuestionsManager()
     closed = ClosedQuestionsManager()
 
+    def __unicode__(self):
+	return self.title
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('view-question', [str(self.id)])
 
 
 class Answer(models.Model):
@@ -24,4 +30,8 @@ class Answer(models.Model):
     pub_date = models.DateTimeField(default=datetime.now)
     text = models.TextField()
     is_best = models.BooleanField(default=False)
-    
+
+    def __unicode__(self):
+	return "%s: %s" % (self.author, self.question.title)
+
+
