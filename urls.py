@@ -32,7 +32,7 @@ answers_of_user = url(
     name='answers-of-user'
 )
 view_question = url(
-    regex=r'^show/(?P<id>\d+)/$',
+    regex=r'^show/(?P<pk>\d+)/$',
     view=ViewQuestion.as_view(),
     name='view-question'
 )

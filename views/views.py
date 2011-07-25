@@ -78,17 +78,10 @@ class ListUserAnswers(ListByUser):
 class ViewQuestion(DetailView):
 	context_object_name = 'question'
 	template_name = 'qna/view_question.html'	
-
-	def get_queryset(self):
-		id = self.kwargs.get('id', 0)
-		if not id:
-			raise Http404
-		self.question = get_object_or_404(Question, pk=id)
-		self.answers = Answer.objects.filter(question__pk=id)
+	model = Question
 
 	def get_context_data(self, **kwargs):
 		context = super(ViewQuestion, self).get_context_data(**kwargs)
-		context['question'] = self.question
-		context['answers'] = self.answers
+		context['answers'] = Answer.objects.filter(question__pk=self.kwargs.get('pk', 0))
 		return context
 
