@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
 from hzqna.views import ListOpened, ListClosed, ListUserQuestions, ListUserAnswers, ViewQuestion
+from hzqna.views.post import PostQuestion
 
 opened_questions = url(
     regex=r'^opened/(?P<page>\d+)/$',
@@ -37,8 +38,16 @@ view_question = url(
     name='view-question'
 )
 
+post_question = url(
+	regex=r'^post/',
+	view=PostQuestion.as_view(),
+	name='post-question'
+)
+
+
 
 urlpatterns = patterns('', opened_questions, closed_questions, tagged_opened_questions,
-                       tagged_closed_questions, questions_of_user, answers_of_user, view_question
+                       tagged_closed_questions, questions_of_user, answers_of_user, view_question,
+					   post_question
                        )
                       
