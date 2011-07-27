@@ -10,6 +10,6 @@ class PostQuestion(CreateView):
 		return kargs
 
 	def get_success_url(self):
-		# use django.messages here
+		# TODO: use django.messages here
 		return super(PostQuestion, self).get_success_url()
 	
