@@ -9,7 +9,8 @@ from django.shortcuts import get_object_or_404
 
 class ListQuestionsGeneric(ListView):
 	def get_queryset(self):
-            page = self.kwargs.get('page', 1)
+            page = self.kwargs['page'] # or None
+            if not page: page = 1
 	    tagname = self.kwargs.get('tagname', None)
 	    if tagname:
 		objects = self.get_tagged(tagname)		
