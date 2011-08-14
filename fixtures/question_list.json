@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "hzqna.question", "fields": {"author": 1, "title": "Question one", "text": "First test question", "tags": "", "pub_date": "2011-08-14 16:50:36", "is_closed": false}}, {"pk": 2, "model": "hzqna.question", "fields": {"author": 1, "title": "Question two", "text": "Second test question", "tags": "", "pub_date": "2011-08-14 16:54:34", "is_closed": false}}]

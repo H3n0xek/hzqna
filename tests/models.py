@@ -7,20 +7,18 @@ class QuestionSimpleTestCase(TestCase):
     fixtures = ['question_simple.json', ]
 
     def setUp(self):
-        pass
+        u = User.objects.get(pk=1)
+        q = Question.objects.create(author=u, title='Test question',
+            text='Blablabla')        
 
     def testQuestionCreate(self):
-        u = User.objects.get(pk=1)
-        q = Question.objects.create(author=u, title='Test question', text='Blablabla')
         self.assertTrue(Question.opened.get(title='Test question'))
 
     def testQuestionRemove(self):
-        self.testQuestionCreate()
         q = Question.opened.get(title='Test question')
         q.delete()
 
     def testQuestionClose(self):
-        self.testQuestionCreate()
         q = Question.opened.get(title='Test question')
         q.is_closed = True
         q.save()
