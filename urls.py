@@ -38,10 +38,35 @@ view_question = url(
     name='view-question'
 )
 post_question = url(
-	regex=r'^post/',
+	regex=r'^post/$',
 	view=PostQuestion.as_view(),
 	name='post-question'
 )
+#post_answer = url(
+#	regex=r'^post/(?P<question_id>\d+)/$',
+#	view=PostAnswer.as_view(),
+#	name='post-answer'
+#)
+#best_answer = url(
+#	regex=r'^best/(?P<answer_id>\d+)/$',
+#	view=BestAnswer.as_view(),
+#	name='best-answer'
+#)
+#edit_question = url(
+#	regex=r'^edit/q/(?P<question_id>\d+)/$',
+#	view=EditQuestion.as_view(),
+#	name='edit-question'
+#)
+#edit_answer = url(
+#	regex=r'^edit/a/(?P<answer_id>\d+)/$',
+#	view=EditAnswer.as_view(),
+#	name='edit-answer'
+#)
+#close_question = url(
+#	regex=r'^close/(?P<question_id>\d+)/$',
+#	view=CloseQuestion.as_view(),
+#	name='close-question'
+#)
 
 
 urlpatterns = patterns('', opened_questions, closed_questions, tagged_opened_questions,
